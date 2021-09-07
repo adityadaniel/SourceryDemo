@@ -1,0 +1,11 @@
+configurations:
+- sources:
+    - Sources/Shop/Shop.swift
+  templates:
+    - templates/BetterCodable.stencil
+  output: Sources/Shop/Generated/
+- sources:
+    - Sources/Shop/ShopAction.swift
+  templates:
+    - templates/AutoCasePath.stencil
+  output: Sources/Shop/Generated

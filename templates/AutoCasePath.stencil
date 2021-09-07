@@ -1,0 +1,21 @@
+import CasePaths
+
+{% for type in types.enums where type.implements.AutoCasePath %}
+{% for member in type.cases where member.hasAssociatedValue %}
+extension CasePath where Root == {{ type.name }}, Value == {{ member.associatedValues[0].typeName }} {
+  {{ type.accessLevel }} static let {{ type.name|snakeToCamelCase|lowerFirstWord }}To{{ member.name|upperFirstLetter }} = CasePath(
+    embed: {{ type.name }}.{{ member.name }},
+    extract: {
+    {% if member.associatedValues[0].typeName|lowercase|contains:"state" %}
+      guard case let .{{ member.name }}(state) = $0 else { return nil }
+      return state
+    {% else %}
+      guard case let .{{ member.name }}(action) = $0 else { return nil }
+      return action
+    {% endif %}
+    }
+  )
+}
+
+{% endfor %}
+{% endfor %}

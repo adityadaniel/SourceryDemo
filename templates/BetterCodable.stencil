@@ -1,0 +1,33 @@
+{% for type in types.structs|!enum|!protocol where type.implements.BetterDecodable %}
+
+{{ type.accessLevel }} struct {{ type.name }} {
+  {% for var in type.variables %}
+  let {{ var.name }}: {{ var.typeName }}
+  {% endfor %}
+
+  {{ type.accessLevel }} init(
+    {% for var in type.variables %}
+    {{ var.name }}: {{ var.typeName }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+  ) {
+    {% for var in type.variables %}
+    self.{{ var.name }} = {{ var.name }}
+    {% endfor %}
+  }
+}
+
+extension {{ type.name }}: Decodable, Equatable {
+  private enum CodingKeys: String, CodingKey {
+  {% for var in type.variables %}
+    case {{ var.name }}
+  {% endfor %}
+  }
+
+  {{ type.accessLevel }} init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    {% for var in type.variables|!static|!computed %}
+    {{ var.name }} = try container.decode({{ var.typeName }}.self, forKey: .{{var.name}})
+    {% endfor %}
+  }
+}
+{% endfor %}
