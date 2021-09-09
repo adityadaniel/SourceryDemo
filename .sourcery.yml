@@ -1,5 +1,10 @@
 configurations:
 - sources:
+    - Sources/Shop/Product.swift
+  templates:
+    - templates/BetterMemberwise.stencil
+  output: Sources/Shop/Generated/
+- sources:
     - Sources/Shop/Shop.swift
   templates:
     - templates/BetterCodable.stencil

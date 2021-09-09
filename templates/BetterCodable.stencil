@@ -1,6 +1,6 @@
 {% for type in types.structs|!enum|!protocol where type.implements.BetterDecodable %}
 
-{{ type.accessLevel }} struct {{ type.name }} {
+{{ type.accessLevel }} struct {{ type.name }}Sourcery {
   {% for var in type.variables %}
   let {{ var.name }}: {{ var.typeName }}
   {% endfor %}
@@ -16,7 +16,7 @@
   }
 }
 
-extension {{ type.name }}: Decodable, Equatable {
+extension {{ type.name }}Sourcery: Decodable, Equatable {
   private enum CodingKeys: String, CodingKey {
   {% for var in type.variables %}
     case {{ var.name }}

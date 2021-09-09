@@ -1,0 +1,17 @@
+{% for type in types.all|annotated:"betterMemberwise" %}
+{{ type.accessLevel }} struct {{ type.name }} { 
+{% for var in type.variables %}
+  private let {{ var.name }}: {{ var.typeName }}
+{% endfor %}
+
+  {{ type.accessLevel }} init(
+    {% for var in type.variables %}
+    {{ var.name }}: {{ var.typeName }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+  ) {
+    {% for var in type.variables %}
+    self.{{ var.name }} = {{ var.name }}
+    {% endfor %}
+  }
+}
+{% endfor %}

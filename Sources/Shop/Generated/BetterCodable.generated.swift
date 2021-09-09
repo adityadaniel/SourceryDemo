@@ -2,7 +2,7 @@
 // DO NOT EDIT
 
 
-public struct Shop {
+public struct ShopSourcery {
   let id: String
   let name: String
   let profileImage: String
@@ -21,7 +21,7 @@ public struct Shop {
   }
 }
 
-extension Shop: Decodable, Equatable {
+extension ShopSourcery: Decodable, Equatable {
   private enum CodingKeys: String, CodingKey {
     case id
     case name
@@ -38,38 +38,7 @@ extension Shop: Decodable, Equatable {
   }
 }
 
-public struct ShopReputation {
-  let status: String
-  let isOfficialStore: Bool
-  let hasBebasOngkir: Int
-
-  public init(
-    status: String, 
-    isOfficialStore: Bool, 
-    hasBebasOngkir: Int
-  ) {
-    self.status = status
-    self.isOfficialStore = isOfficialStore
-    self.hasBebasOngkir = hasBebasOngkir
-  }
-}
-
-extension ShopReputation: Decodable, Equatable {
-  private enum CodingKeys: String, CodingKey {
-    case status
-    case isOfficialStore
-    case hasBebasOngkir
-  }
-
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    status = try container.decode(String.self, forKey: .status)
-    isOfficialStore = try container.decode(Bool.self, forKey: .isOfficialStore)
-    hasBebasOngkir = try container.decode(Int.self, forKey: .hasBebasOngkir)
-  }
-}
-
-public struct ShopTier {
+public struct ShopTierSourcery {
   let tier: String
   let isOfficial: Bool
   let hasBebasOngkir: Int
@@ -85,7 +54,7 @@ public struct ShopTier {
   }
 }
 
-extension ShopTier: Decodable, Equatable {
+extension ShopTierSourcery: Decodable, Equatable {
   private enum CodingKeys: String, CodingKey {
     case tier
     case isOfficial

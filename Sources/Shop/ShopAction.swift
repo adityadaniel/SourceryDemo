@@ -1,15 +1,16 @@
-protocol AutoCasePath {}
+import CasePaths
 
-enum BasicInfoAction: AutoCasePath {
+
+enum BasicInfoAction {
   case didTap
 }
 
-enum PerformanceAction: AutoCasePath {
+enum PerformanceAction {
   case didTap
   case sendImpression
 }
 
-enum ButtonAction: AutoCasePath {
+enum ButtonAction {
   case didTapFollowButton
   case didTapChatButton
   case didTapShopNote
@@ -33,26 +34,31 @@ enum PlayWidgetAction {
   case stopPlaying
 }
 
-enum WidgetAction: AutoCasePath {
+enum WidgetAction {
   case displaySingleColumn(DisplaySingleColumnAction)
   case slider(SliderAction)
   case playWidget(PlayWidgetAction)
 }
 
-enum ProductCardAction: AutoCasePath {
+enum ProductCardAction {
   case didTap
   case didAddToWishlist
 }
+enum ShopCredibilityAction {
+    case didTap
+}
 
-enum ShopAction: AutoCasePath {
+//sourcery: autoCasePath
+enum ShopAction {
   case basicInfo(BasicInfoAction)
   case performance(PerformanceAction)
   case button(ButtonAction)
   case widget(WidgetAction)
   case productCard(ProductCardAction)
+    case shopCredibility(ShopCredibilityAction)
 }
 
-enum ShopState: AutoCasePath {
+enum ShopState {
   case loading
   case loaded(ShopContentState)
   case error
@@ -61,4 +67,64 @@ enum ShopState: AutoCasePath {
 struct ShopContentState {
     let name: String
     let id: Int
+}
+
+extension CasePath where Root == ShopAction, Value == BasicInfoAction {
+   internal static let shopActionToBasicInfo = CasePath(
+        embed: ShopAction.basicInfo,
+        extract: {
+            guard case let .basicInfo(action) = $0 else { return nil }
+            return action
+        }
+   )
+}
+
+extension CasePath where Root == ShopAction, Value == PerformanceAction {
+   internal static let shopActionToPerformance = CasePath(
+        embed: ShopAction.performance,
+        extract: {
+            guard case let .performance(action) = $0 else { return nil }
+            return action
+        }
+   )
+}
+
+extension CasePath where Root == ShopAction, Value == ButtonAction {
+   internal static let shopActionToButton = CasePath(
+        embed: ShopAction.button,
+        extract: {
+            guard case let .button(action) = $0 else { return nil }
+            return action
+        }
+   )
+}
+
+extension CasePath where Root == ShopAction, Value == WidgetAction {
+   internal static let shopActionToWidget = CasePath(
+        embed: ShopAction.widget,
+        extract: {
+            guard case let .widget(action) = $0 else { return nil }
+            return action
+        }
+   )
+}
+
+extension CasePath where Root == ShopAction, Value == ProductCardAction {
+   internal static let shopActionToProductCard = CasePath(
+        embed: ShopAction.productCard,
+        extract: {
+            guard case let .productCard(action) = $0 else { return nil }
+            return action
+        }
+   )
+}
+
+extension CasePath where Root == ShopAction, Value == ShopCredibilityAction {
+   internal static let shopActionToShopCredibility = CasePath(
+        embed: ShopAction.shopCredibility,
+        extract: {
+            guard case let .shopCredibility(action) = $0 else { return nil }
+            return action
+        }
+   )
 }

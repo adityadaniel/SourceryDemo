@@ -2,6 +2,8 @@
 
 This is demo project for iOS Pintar sharing session. There's `.sourcery.yml` configuration files on the root of the folder that describe where's the template location as well as where generated code should be located.
 
+Make sure you have sourcery in your system. You can install it using Homebrew: `brew install sourcery`
+
 `.sourcery.yml` contains 2 configuration to demonstrate generating `Codable` code and `AutoCasePath`.
 
 To generate using Sourcery, run:
